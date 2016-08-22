@@ -19,35 +19,4 @@ Adds or modifies the git `commit-msg` hook at `.git/hooks/commit-msg` to execute
 
 
 ## Usage Guide
-The following conditions are assumed:
-
-* You have a Django 1.8+ application running on Heroku
-* You already use Heroku Postgres
-* You already use Continuous Integration, such as: CircleCI, Jenkins, or TravisCI
-
-### Integrating with existing Continuous Integration
-
-1. Copy our example [PyInvoke](http://www.pyinvoke.org/) script: [tasks.py](./examples/heroku/tasks.py) 
-3. In your CI system:
-    1. Add an environment variable named `HEROKU_APP_NAME`, set it to the target Heroku app name.
-    2. Execute `invoke deploy` to the deployment steps.
-
-When your build is successful, `invoke deploy` will check the pending migrations against your Heroku database for ZDCD compatability.  If the migrations are incompatible, the script will exit and your existing application will be unmodified.  If the migrations are compatible, then a database backup will be captured.  After the database is backed up, your code will be pushed via git to Heroku, and the normal deploy process will take over.  If for any reason there is a failure in the deployment process, then your app and database will be rolled back to the previous released version.
-
-Deploys containing migrations which are considered unsafe should be performed outside of normal usage.  We use Heroku's scheduled tasks to execute `invoke nightly_build` to execute a build on CircleCI.  Nightly builds are allowed to run all migrations by passing `NIGHTLY_BUILD=true` as an environment variable.
-
-#### CircleCI `circle.yml` example
-```yaml
-dependencies:
-  override:
-    - pip install invoke
-
-deployment:
-  staging:
-    branch: master
-    commands:
-      - invoke deploy:
-          environment:
-            HEROKU_APP_NAME: django-zdcd-poc
-          timeout: 6000
-```
+* [Heroku + CircleCI](./examples/heroku/)
