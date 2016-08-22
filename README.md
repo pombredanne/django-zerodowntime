@@ -1,5 +1,7 @@
 # django-zerodowntime
 
+[![CircleCI](https://circleci.com/gh/rentlytics/django-zerodowntime.svg?style=svg)](https://circleci.com/gh/rentlytics/django-zerodowntime)
+
 Management commands to help Django users build & deploy their projects with low interruption for their users.  This method is often called Zero Downtime Continous Delivery, or ZDCD.
 
 Database schema migrations are the most common cause of application downtime during a deployment.  Some operations like adding a NULLed column or an entirely new table do not affect the application as it continues to run.  Other operations such as removing/renaming a column/table can cause the deployed code to fail in unexpected ways.  Ultimately you will have to remove or rename existing schema, but most deployments do not require downtime so the code can be updated without interrupting users.

@@ -1,10 +1,8 @@
 import operator
 from collections import namedtuple
-from typing import List
 
-from django.db.migrations import Migration, operations
+from django.db.migrations import operations
 from django.db.migrations.loader import MigrationLoader
-from django.db.migrations.state import ProjectState
 from django.db.models import NOT_PROVIDED
 
 SAFE_OPERATIONS = (

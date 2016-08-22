@@ -11,7 +11,7 @@ class MigrationUtilsTestCase(TestCase):
     def setUp(self):
         self.command = install_git_hooks.Command()
         self.command.HOOK_PATH = os.path.join(tempfile.gettempdir(), '.git/hooks')
-        os.makedirs(self.command.HOOK_PATH, exist_ok=True)
+        os.makedirs(self.command.HOOK_PATH)
 
     def tearDown(self):
         shutil.rmtree(self.command.HOOK_PATH, True)
