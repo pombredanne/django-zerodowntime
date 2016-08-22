@@ -112,6 +112,13 @@ setup(
         # for deploy scripting
         'invoke==0.13.0',
     ],
+    setup_requires=[
+        'pytest-runner',
+    ],
+    tests_require=[
+        'pytest',
+        'pytest-django',
+    ],
     license="MIT",
     zip_safe=False,
     classifiers=[
