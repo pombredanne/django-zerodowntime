@@ -16,7 +16,7 @@ if ! grep -iqE "$commit_regex" "$1"; then
     migration_check=$?
     if [ $migration_check != 0 ]; then
       echo "Aborting commit, caused by migrations incompatible with ZDCD." >&2
-      echo "To skip this check you can add '[skip-zdcd-check]' to your commit message." >&2
+      echo "To skip this check you can add '[allow-unsafe-migrations]' to your commit message." >&2
       exit $migration_check
     fi;
 fi;
