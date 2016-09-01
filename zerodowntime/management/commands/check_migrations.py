@@ -10,7 +10,7 @@ class Command(BaseCommand):
            'zero-downtime continuous delivery deployment.'
 
     def handle(self, *args, **options):
-        connection = connections[DEFAULT_DB_ALIAS]
+        connection = connections['CHECK_MIGRATIONS']
 
         unsafe_migrations = find_unsafe_migrations(connection)
 

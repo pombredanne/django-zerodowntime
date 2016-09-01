@@ -9,7 +9,6 @@ commit_regex='(\[allow\-unsafe\-migrations]|merge)'
 
 if ! grep -iqE "$commit_regex" "$1"; then
     source ./venv/bin/activate
-    export $(heroku config -s | sed -e "s/='\\(.*\\)'/=\\1/")
 
     ./manage.py check_migrations
 
