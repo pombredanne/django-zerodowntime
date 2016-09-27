@@ -15,6 +15,10 @@ UnsafeMigration = namedtuple('UnsafeMigration', (
     'app_name', 'migration_name', 'offending_operations', 'sql_statements'
 ))
 
+MigrationConflict = namedtuple('MigrationConflict', (
+    'app_name', 'migration_names',
+))
+
 
 def analyze_migration(connection, migration, project_state):
     unsafe_operations = []
@@ -65,5 +69,10 @@ def find_unsafe_migrations(connection):
             unsafe_migrations.append(result)
 
     unsafe_migrations = sorted(unsafe_migrations, key=operator.attrgetter('app_name', 'migration_name'))
+
+    conflicts = loader.detect_conflicts()
+
+    for app, names in conflicts.items():
+        unsafe_migrations.append(MigrationConflict(app_name=app, migration_names=names))
 
     return unsafe_migrations
