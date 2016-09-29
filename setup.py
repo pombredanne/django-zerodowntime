@@ -97,7 +97,7 @@ def find_package_data(where='.', package='',
 
 setup(
     name='django-zerodowntime',
-    version='0.2.8',
+    version='0.3.0',
     description="A Django Migrations extension providing a framework for Zero Downtime Continuous Delivery.",
     long_description=readme + '\n\n' + history,
     author="Phil Plante",
