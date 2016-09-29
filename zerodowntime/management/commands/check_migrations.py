@@ -1,8 +1,31 @@
 from django.core.management import BaseCommand
-from django.db import DEFAULT_DB_ALIAS
 from django.db import connections
 
-from zerodowntime.migration_utils import UnsafeMigration, find_unsafe_migrations
+from zerodowntime.migration_utils import MigrationConflict, UnsafeMigration, find_unsafe_migrations
+
+
+def print_unsafe_migration(migration):
+    print("\n\n{}.{}:".format(migration.app_name, migration.migration_name))
+    print('\tOPERATIONS:')
+    print('\t-----------')
+
+    for operation in migration.offending_operations:
+        print('\t* ', operation.describe())
+
+    print('\n\tSQL STATEMENTS:')
+    print('\t---------------')
+
+    for statement in migration.sql_statements:
+        print('\t{}'.format(statement))
+
+    print('\n')
+
+
+def print_migration_conflict(migration):
+    print("\n\nMigration Conflict found in app: {app}, migrations: {migrations}:".format(
+        app=migration.app_name,
+        migrations=migration.migration_name
+    ))
 
 
 class Command(BaseCommand):
@@ -24,20 +47,7 @@ class Command(BaseCommand):
         print("These operations are incompatible with Zero Downtime Deployments:")
 
         for migration in unsafe_migrations:
-            assert isinstance(migration, UnsafeMigration)
-
-            print("\n\n{}.{}:".format(migration.app_name, migration.migration_name))
-
-            print('\tOPERATIONS:')
-            print('\t-----------')
-            for operation in migration.offending_operations:
-                print('\t* ', operation.describe())
-
-            print()
-
-            print('\tSQL STATEMENTS:')
-            print('\t---------------')
-            for statement in migration.sql_statements:
-                print('\t{}'.format(statement))
-
-            print()
+            if isinstance(migration, UnsafeMigration):
+                print_unsafe_migration(migration)
+            elif isinstance(migration, MigrationConflict):
+                print_migration_conflict(migration)

@@ -2,9 +2,7 @@ from collections import OrderedDict
 
 from django.apps import apps
 from django.conf import settings
-from django.db import DEFAULT_DB_ALIAS
-from django.db import connections
-from django.db import models
+from django.db import DEFAULT_DB_ALIAS, connections, models
 from django.db.migrations import operations
 from django.test import TestCase
 
@@ -12,6 +10,14 @@ from zerodowntime import migration_utils
 
 
 class MigrationUtilsTestCase(TestCase):
+    def setUp(self):
+        settings.INSTALLED_APPS = [
+            'zerodowntime',
+            'tests.safe_migrations',
+        ]
+
+        self.reinitialize_django_apps()
+
     def test_operation_is_safe(self):
         assert migration_utils.operation_is_safe(operations.AddField(
             model_name='unsafemodel',
@@ -70,8 +76,23 @@ class MigrationUtilsTestCase(TestCase):
         assert unsafemodel_kitchen_sink.migration_name == '0003_unsafemodel_kitchen_sink'
         assert len(unsafemodel_kitchen_sink.offending_operations) == 5
 
+    def test_find_migration_conflicts(self):
+        conn = connections[DEFAULT_DB_ALIAS]
+        self.add_django_app('tests.conflicting_migrations')
+
+        result = migration_utils.find_unsafe_migrations(conn)
+
+        assert result[0].app_name == 'conflicting_migrations'
+        assert result[0].migration_names == {
+            '0002_unsafemodel_some_other_changes',
+            '0002_unsafemodel_first_changes'
+        }
+
     def add_django_app(self, app_module):
         settings.INSTALLED_APPS.append(app_module)
+        self.reinitialize_django_apps()
+
+    def reinitialize_django_apps(self):
         apps.app_configs = OrderedDict()
         # set ready to false so that populate will work
         apps.ready = False
