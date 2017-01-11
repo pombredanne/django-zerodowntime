@@ -20,3 +20,18 @@ Adds or modifies the git `commit-msg` hook at `.git/hooks/commit-msg` to execute
 
 ## Usage Guide
 * [Heroku + CircleCI](./examples/heroku/)
+
+## Running tests
+1. Ensure `tox` is installed with `pip install tox`
+2. Use `tox` to run tests against py2.7 and py3.5.
+    3. _You can also run `py.test` in the project root to run against   your environment's python._
+3. Rentlytics employees can run `make release` to push to PyPi.  In order to authenticate, you need a `.pypirc` file in your home directory
+### Tests Structre
+The tests folder contains a Django project with 3 apps:
+
+* conflicting_migrations
+* safe_migrations
+* unsafe_migrations
+
+These apps provide test coverage for different scenarios of migrations to test, they only contain the minimum required files (`models.py` and a `migrations` folder) to act as a Django app.  Tests use different combinations of these apps to simulate realistic migration scenarios for testing.
+
