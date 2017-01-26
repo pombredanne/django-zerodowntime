@@ -30,8 +30,8 @@ setup(
     ],
     test_suite='tests',
     tests_require=[
-        'pytest',
-        'pytest-django',
+        'pytest==3.0.6',
+        'pytest-django==3.1.2',
     ],
     license="MIT",
     zip_safe=False,
