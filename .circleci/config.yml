@@ -5,7 +5,9 @@ jobs:
       - image: circleci/python:2.7
     steps:
       - checkout
-      - run: sudo pip install pyenv
+      - run: sudo curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+      - run: pyenv update
+      - run: pyenv global 2.7.11 3.5.1
       - run: sudo pyenv global 2.7.11 3.5.1
       - run: sudo python setup.py install
       - run: sudo pip install tox
