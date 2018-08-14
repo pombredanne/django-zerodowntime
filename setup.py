@@ -23,7 +23,7 @@ setup(
     ],
     include_package_data=True,
     install_requires=[
-        'django==1.11',
+        'django==1.10',
     ],
     setup_requires=[
         'pytest-runner',

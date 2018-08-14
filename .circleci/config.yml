@@ -5,11 +5,12 @@ jobs:
       - image: circleci/python:2.7
     steps:
       - checkout
-      - run: |
-          sudo python setup.py install
-          sudo pip install tox
-          sudo python setup.py test
-          sudo tox
+      - run: sudo pip install pyenv
+      - run: sudo pyenv global 2.7.11 3.5.1
+      - run: sudo python setup.py install
+      - run: sudo pip install tox
+      - run: sudo python setup.py test
+      - run: sudo tox
 
 workflows:
   version: 2
