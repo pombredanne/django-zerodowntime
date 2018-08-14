@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          python setup.py install
+          sudo python setup.py install
           sudo pip install tox
           python setup.py test
           tox
