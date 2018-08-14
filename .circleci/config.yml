@@ -8,7 +8,7 @@ jobs:
       - run: |
           sudo python setup.py install
           sudo pip install tox
-          python setup.py test
+          sudo python setup.py test
           tox
 
 workflows:
