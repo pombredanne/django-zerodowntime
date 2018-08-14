@@ -6,7 +6,6 @@ jobs:
     steps:
       - checkout
       - run: |
-          pyenv global 2.7.11 3.5.1
           python setup.py install
           pip install tox
           python setup.py test
