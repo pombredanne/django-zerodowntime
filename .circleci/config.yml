@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run: |
           python setup.py install
-          pip install tox
+          sudo pip install tox
           python setup.py test
           tox
 
