@@ -9,7 +9,7 @@ jobs:
           sudo python setup.py install
           sudo pip install tox
           sudo python setup.py test
-          tox
+          sudo tox
 
 workflows:
   version: 2
