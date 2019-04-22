@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.5
+    steps:
+      - checkout
+      - run: sudo python setup.py install
+      - run: sudo pip install tox
+      - run: sudo python setup.py test
+      - run: sudo tox
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - build
